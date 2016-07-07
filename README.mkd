@@ -31,3 +31,225 @@ Returns a new `Nothing` which represents the absence of a value.
 ```javascript
 Nothing().isJust // false
 ```
+
+#### Functions
+##### `map : Maybe a -> (a -> b) -> Maybe b`
+Returns a new `Maybe` with its inner value modified, if it has one.
+```javascript
+Just(42).map(a => a + 1) // Just(43)
+
+Nothing().map(a => a + 1) // Nothing
+```
+
+##### `chain : Maybe a -> (a -> Maybe b) -> Maybe b`
+Applies a modification to the inner value, if it has one.
+```javascript
+function add5IfGreaterThan0(v) {
+  return v > 0 ? Just(v + 5) : Nothing();
+}
+
+Just(42).chain(add5IfGreaterThan0) // Just(47)
+
+Nothing().map(add5IfGreaterThan0) // Nothing
+```
+
+##### `ap : Maybe (a -> b) -> Maybe a -> Maybe b`
+Applies a wrapped function to a wrapped argument, if it has both.
+```javascript
+Just(a => a + 5).ap(Just(42)) // Just(47)
+
+Nothing().ap(Just(42)) // Nothing
+```
+
+##### `equals : Maybe a -> * -> bool`
+Checks whether the `Maybe` is equal to something else. Dispatches `equal` if the
+passed argument has one.
+```javascript
+Just(42).equals(Just(42)) // true
+
+Nothing().equals(Just('something')) // false
+```
+
+##### `withDefault : Maybe a -> a -> a`
+Unwraps the inner value, if it has one. If it is `Nothing`, return the given
+default.
+```javascript
+Just(42).withDefault(35) // 42
+
+Nothing().withDefault('some default') // 'some default'
+```
+
+##### `maybe : Maybe a -> b -> (a -> b) -> a`
+Like `withDefault` except it applies a function to the unwrapped value.
+```javascript
+Just(42).maybe(35, a => a + 1) // 43
+
+Nothing().maybe('some default', a => `some value ${a}`) // 'some default'
+```
+
+##### `fromJust : Maybe a -> a (UNSAFE)`
+Unwraps a `Just`, will throw an error of it's called on `Nothing`
+```javascript
+Just(42).fromJust() // 42
+
+Nothing().fromJust() // throws Error('fromJust called on Nothing')
+```
+
+##### `toMaybe : Maybe a -> Maybe a`
+No-op.
+```javascript
+Just(42).toMaybe() // Just(42)
+
+Nothing().toMaybe() // Nothing
+```
+
+##### `toEither : Maybe a -> b -> Either b a`
+`Just` results in a `Right` of the same value. `Nothing` yields a `Left` of the
+passed value.
+```javascript
+Just(42).toEither('val') // Right(42)
+
+Nothing().toEither('val') // Left('val')
+```
+
+##### `isJust : bool`
+`true` if on a `Just`, `false` if `Nothing`.
+```javascript
+Just(42).isJust // true
+
+Nothing().isJust // false
+```
+
+##### `isNothing : bool`
+`true` if on a `Nothing`, `false` if `Just`.
+```javascript
+Just(42).isNothing // false
+
+Nothing().isNothing // true
+```
+
+### Either a b
+#### Constructors
+
+##### `Either.of : a -> Either ? a`
+Returns a new `Right` which generally represents a success value.
+```javascript
+Either.of(42).equals(Right(42)) // true
+```
+
+##### `Right : a -> Either ? a`
+Returns a new `Right` which generally represents a success value.
+```javascript
+Right(42).isRight // true
+```
+
+##### `Left : a -> Either a ?`
+Returns a new `Left` which generally represents a failure or error value.
+```javascript
+Left('hmmmm').isLeft // true
+```
+
+#### Functions
+##### `map : Either a b -> (b -> c) -> Either a c`
+Returns a new `Either` with its `Right` value modified. Keeps
+`Left` unchanged.
+```javascript
+Right(42).map(a => a + 1) // Right(43)
+
+Left('error text').map(a => a + 1) // Left('error text')
+```
+
+##### `chain : Either a b -> (b -> Either a c) -> Either a c`
+Applies a modification to the `Right` value. Keeps `Left` unchanged.
+```javascript
+function add5IfGreaterThan0(v) {
+  return v > 0 ? Just(v + 5) : Left('I should be ignored')
+}
+
+Right(42).chain(add5IfGreaterThan0) // Right(47)
+
+Left('err text').map(add5IfGreaterThan0) // Left('err text')
+```
+
+##### `ap : Either a (b -> c) -> Either b -> Either c`
+Applies a wrapped function to a wrapped argument, if both are `Right`.
+```javascript
+Right(a => a + 5).ap(Right(42)) // Right(47)
+
+Left('hmmm').ap(Right(42)) // Left('hmmm')
+```
+
+##### `equals : Either a b -> * -> bool`
+Checks whether the `Either` is equal to something else. Dispatches `equal` if the
+passed argument has one.
+```javascript
+Right(42).equals(Right(42)) // true
+
+Left('err').equals(Left('other err')) // false
+```
+
+##### `withDefault : Maybe a -> a -> a`
+Unwraps the `Right` value, if it has one. If it is `Left`, return the given
+default.
+```javascript
+Right(42).withDefault(35) // 42
+
+Left('foo').withDefault('some default') // 'some default'
+```
+
+##### `either : Either a b -> (a -> c) -> (b -> c) -> c`
+Like `withDefault` except it applies a function to the unwrapped value. The
+left function is applied if the value is a `Left`, likewise, right to `Right`.
+```javascript
+Right(42).either(a => a * 2423, a => a + 1) // 43
+
+Left(72).either(a => a - 30, a => a + 1) // 42
+```
+
+##### `fromRight : Either a b -> b (UNSAFE)`
+Unwraps a `Right`, will throw an error of it's called on `Left`
+```javascript
+Right(42).fromRight() // 42
+
+Left().fromRight() // throws Error('fromRight called on a Left')
+```
+
+##### `fromLeft : Either a b -> b (UNSAFE)`
+Unwraps a `Left`, will throw an error of it's called on `Right`
+```javascript
+Right().fromLeft() // throws Error('fromLeft called on a Right')
+
+Left(42).fromLeft() // 42
+```
+
+##### `toMaybe : Either a b -> Maybe b`
+Converts `Left` to `Nothing`, `Right(a)` to `Just(a)`.
+```javascript
+Right(42).toMaybe() // Just(42)
+
+Left(99).toMaybe() // Nothing
+```
+
+##### `toEither : Either a b -> Either a a`
+No-op.
+```javascript
+Right(42).toEither() // Right(42)
+
+Left(99).toEither() // Left(99)
+```
+
+##### `isRight : bool`
+`true` if on a `Right`, `false` if `Left`.
+```javascript
+Right(42).isRight // true
+
+Left(99).isRight // false
+```
+
+##### `isLeft : bool`
+`true` if on a `Left`, `false` if `Right`.
+```javascript
+Right(42).isLeft // false
+
+Left(99).isLeft // true
+```
