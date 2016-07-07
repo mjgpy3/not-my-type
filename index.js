@@ -130,5 +130,9 @@ function Right(value) {
 module.exports = {
   Left: Left,
   Right: Right,
-  Either: Either
+  Either: Either,
+
+  Just: Just,
+  Nothing: Nothing,
+  Maybe: Maybe
 };
