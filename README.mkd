@@ -171,7 +171,7 @@ Right(42).chain(add5IfGreaterThan0) // Right(47)
 Left('err text').map(add5IfGreaterThan0) // Left('err text')
 ```
 
-##### `ap : Either a (b -> c) -> Either b -> Either c`
+##### `ap : Either a (b -> c) -> Either a b -> Either a c`
 Applies a wrapped function to a wrapped argument, if both are `Right`.
 ```javascript
 Right(a => a + 5).ap(Right(42)) // Right(47)
@@ -188,7 +188,7 @@ Right(42).equals(Right(42)) // true
 Left('err').equals(Left('other err')) // false
 ```
 
-##### `withDefault : Maybe a -> a -> a`
+##### `withDefault : Either a b -> b -> b`
 Unwraps the `Right` value, if it has one. If it is `Left`, return the given
 default.
 ```javascript
@@ -214,7 +214,7 @@ Right(42).fromRight() // 42
 Left().fromRight() // throws Error('fromRight called on a Left')
 ```
 
-##### `fromLeft : Either a b -> b (UNSAFE)`
+##### `fromLeft : Either a b -> a (UNSAFE)`
 Unwraps a `Left`, will throw an error of it's called on `Right`
 ```javascript
 Right().fromLeft() // throws Error('fromLeft called on a Right')
@@ -230,7 +230,7 @@ Right(42).toMaybe() // Just(42)
 Left(99).toMaybe() // Nothing
 ```
 
-##### `toEither : Either a b -> Either a a`
+##### `toEither : Either a b -> Either a b`
 No-op.
 ```javascript
 Right(42).toEither() // Right(42)
