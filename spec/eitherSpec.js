@@ -31,6 +31,12 @@ describe('Either', () => {
       expect(subject.isLeft).toBe(false);
     });
 
+    describe('.either()', () => {
+      it('returns the inner value modified by the right function', () => {
+        expect(subject.either(() => _, a => a + 1)).toBe(43);
+      });
+    });
+
     describe('.map()', () => {
       it('modifies the inner value', () => {
         expect(subject.map(a => a + 1)).toEqual(Right(43));
@@ -87,6 +93,12 @@ describe('Either', () => {
 
     it('is not a Right', () => {
       expect(subject.isRight).toBe(false);
+    });
+
+    describe('.either()', () => {
+      it('returns the inner value modified by the left function', () => {
+        expect(subject.either(a => a + 1, () => _)).toBe(36);
+      });
     });
 
     describe('.map()', () => {
