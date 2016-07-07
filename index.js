@@ -22,6 +22,9 @@ function Nothing() {
     chain: function (_) {
       return Nothing();
     },
+    ap: function (_) {
+      return Nothing();
+    },
     equals: function (other) {
       return other.isNothing;
     },
@@ -49,6 +52,9 @@ function Just(value) {
     },
     chain: function (fn) {
       return fn(value);
+    },
+    ap: function (other) {
+      return other.map(value);
     },
     equals: function (other) {
       return other.isJust &&
@@ -81,6 +87,9 @@ function Left(value) {
       return Left(value);
     },
     chain: function (_) {
+      return Left(value);
+    },
+    ap: function () {
       return Left(value);
     },
     equals: function (other) {
@@ -117,6 +126,9 @@ function Right(value) {
     },
     chain: function (fn) {
       return fn(value);
+    },
+    ap: function (arg) {
+      return arg.map(value);
     },
     equals: function (other) {
       return other.isRight &&

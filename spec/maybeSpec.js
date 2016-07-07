@@ -43,6 +43,12 @@ describe('Maybe', () => {
       });
     });
 
+    describe('.ap()', () => {
+      it('applies the wrapped function to a given value', () => {
+        expect(Just(a => a + 1).ap(Just(42))).toEqual(Just(43));
+      });
+    });
+
     describe('.chain()', () => {
       it('modifies the inner value, bubbling the callback result', () => {
         expect(subject.chain(add5UnlessZero)).toEqual(Just(47));
@@ -98,6 +104,12 @@ describe('Maybe', () => {
     describe('.map()', () => {
       it('returns a Nothing', () => {
         expect(subject.map(a => a + 1)).toEqual(Nothing());
+      });
+    });
+
+    describe('.ap()', () => {
+      it('preserves the Nothing', () => {
+        expect(Nothing().ap(Just(42))).toEqual(Nothing());
       });
     });
 

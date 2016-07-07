@@ -49,6 +49,12 @@ describe('Either', () => {
       });
     });
 
+    describe('.ap()', () => {
+      it('applies the wrapped function to a given value', () => {
+        expect(Right(a => a + 1).ap(Right(42))).toEqual(Right(43));
+      });
+    });
+
     describe('.chain()', () => {
       it('modifies the inner value, bubbling the callback result', () => {
         expect(subject.chain(add5UnlessZero)).toEqual(Right(47));
@@ -116,6 +122,12 @@ describe('Either', () => {
     describe('.map()', () => {
       it('does not modify the inner value', () => {
         expect(subject.map(a => a + 1)).toEqual(Left(35));
+      });
+    });
+
+    describe('.ap()', () => {
+      it('preserves the Left', () => {
+        expect(Left(43).ap(Right(42))).toEqual(Left(43));
       });
     });
 
