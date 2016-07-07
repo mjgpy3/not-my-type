@@ -41,6 +41,10 @@ describe('Either', () => {
       it('returns the inner value modified by the right function', () => {
         expect(subject.either(() => _, a => a + 1)).toBe(43);
       });
+
+      it('can be partially applied', () => {
+        expect(subject.either(() => _)(a => a + 1)).toBe(43);
+      });
     });
 
     describe('.map()', () => {
@@ -116,6 +120,10 @@ describe('Either', () => {
     describe('.either()', () => {
       it('returns the inner value modified by the left function', () => {
         expect(subject.either(a => a + 1, () => _)).toBe(36);
+      });
+
+      it('can be partially applied', () => {
+        expect(subject.either(a => a + 1)(() => _)).toBe(36);
       });
     });
 
