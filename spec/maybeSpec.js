@@ -5,6 +5,12 @@ const T = require('../index.js'),
 
 var subject;
 
+function add5UnlessZero(value) {
+  return value === 0 ?
+    Nothing() :
+    Just(value + 5);
+}
+
 describe('Maybe', () => {
   beforeEach(() => {
     jasmine.addCustomEqualityTester((a, b) => a.equals(b));
@@ -34,6 +40,12 @@ describe('Maybe', () => {
     describe('.map()', () => {
       it('modifies the inner value', () => {
         expect(subject.map(a => a + 1)).toEqual(Just(43));
+      });
+    });
+
+    describe('.chain()', () => {
+      it('modifies the inner value, bubbling the callback result', () => {
+        expect(subject.chain(add5UnlessZero)).toEqual(Just(47));
       });
     });
 
@@ -86,6 +98,12 @@ describe('Maybe', () => {
     describe('.map()', () => {
       it('returns a Nothing', () => {
         expect(subject.map(a => a + 1)).toEqual(Nothing());
+      });
+    });
+
+    describe('.chain()', () => {
+      it('returns Nothing', () => {
+        expect(subject.chain(add5UnlessZero)).toEqual(Nothing());
       });
     });
 

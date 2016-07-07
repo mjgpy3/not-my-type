@@ -5,6 +5,12 @@ const T = require('../index.js'),
 
 var subject;
 
+function add5UnlessZero(value) {
+  return value === 0 ?
+    Left('Value cannot be zero') :
+    Right(value + 5);
+}
+
 describe('Either', () => {
   beforeEach(() => {
     jasmine.addCustomEqualityTester((a, b) => a.equals(b));
@@ -40,6 +46,12 @@ describe('Either', () => {
     describe('.map()', () => {
       it('modifies the inner value', () => {
         expect(subject.map(a => a + 1)).toEqual(Right(43));
+      });
+    });
+
+    describe('.chain()', () => {
+      it('modifies the inner value, bubbling the callback result', () => {
+        expect(subject.chain(add5UnlessZero)).toEqual(Right(47));
       });
     });
 
@@ -104,6 +116,12 @@ describe('Either', () => {
     describe('.map()', () => {
       it('does not modify the inner value', () => {
         expect(subject.map(a => a + 1)).toEqual(Left(35));
+      });
+    });
+
+    describe('.chain()', () => {
+      it('does not modify the inner value', () => {
+        expect(subject.chain(add5UnlessZero)).toEqual(Left(35));
       });
     });
 

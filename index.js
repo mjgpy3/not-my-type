@@ -19,6 +19,9 @@ function Nothing() {
     map: function (_) {
       return Nothing();
     },
+    chain: function (_) {
+      return Nothing();
+    },
     equals: function (other) {
       return other.isNothing;
     },
@@ -43,6 +46,9 @@ function Just(value) {
   return {
     map: function (fn) {
       return Just(fn(value));
+    },
+    chain: function (fn) {
+      return fn(value);
     },
     equals: function (other) {
       return other.isJust &&
@@ -74,6 +80,9 @@ function Left(value) {
     map: function (_) {
       return Left(value);
     },
+    chain: function (_) {
+      return Left(value);
+    },
     equals: function (other) {
       return other.isLeft &&
         ((value.equals && value.equals(other)) || value === other.fromLeft());
@@ -103,8 +112,11 @@ function Left(value) {
 
 function Right(value) {
   return {
-    map: function (fn) {
+   map: function (fn) {
       return new Right(fn(value));
+    },
+    chain: function (fn) {
+      return fn(value);
     },
     equals: function (other) {
       return other.isRight &&
