@@ -93,6 +93,9 @@ function Left(value) {
     toMaybe: function () {
       return Nothing()
     },
+    withDefault: function (def) {
+      return def;
+    },
     isLeft: true,
     isRight: false
   };
@@ -122,17 +125,22 @@ function Right(value) {
     toMaybe: function () {
       return Just(value);
     },
+    withDefault: function (_) {
+      return value;
+    },
     isLeft: false,
     isRight: true
   };
 }
 
-module.exports = {
-  Left: Left,
-  Right: Right,
-  Either: Either,
+if (module && module.exports) {
+  module.exports = {
+    Left: Left,
+    Right: Right,
+    Either: Either,
 
-  Just: Just,
-  Nothing: Nothing,
-  Maybe: Maybe
-};
+    Just: Just,
+    Nothing: Nothing,
+    Maybe: Maybe
+  };
+}
