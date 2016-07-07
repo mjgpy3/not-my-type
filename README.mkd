@@ -1,0 +1,3 @@
+# Not My Type
+
+Some useful types for JavaScript. Emphasizes practicality rather than safety.
