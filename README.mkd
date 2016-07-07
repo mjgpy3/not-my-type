@@ -9,11 +9,12 @@ Some useful types for JavaScript. Emphasizes practicality rather than safety.
 ### Maybe a
 #### Constructors
 
-`Maybe.of` returns a new `Just`.
+#### `Maybe.of`
+Returns a new `Just`.
 ```haskell
 Maybe.of :: a -> Maybe a
 ```
-
+Example
 ```javascript
 Maybe.of(42).equals(Just(42))
 ```
