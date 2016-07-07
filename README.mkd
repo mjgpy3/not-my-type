@@ -4,7 +4,7 @@ Some useful types for JavaScript. Emphasizes practicality rather than safety.
 
 ## Installing
 ```
-npm install --save-dev not-my-type
+npm install not-my-type
 ```
 
 ## Available Types

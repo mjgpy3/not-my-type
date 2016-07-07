@@ -1,6 +1,6 @@
 {
   "name": "not-my-type",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Some useful types",
   "main": "index.js",
   "scripts": {
