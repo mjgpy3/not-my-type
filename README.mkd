@@ -1,3 +1,19 @@
 # Not My Type
 
 Some useful types for JavaScript. Emphasizes practicality rather than safety.
+
+## Available Types
+ - Maybe a
+ - Either a b
+
+### Maybe a
+#### Constructors
+
+`Maybe.of` returns a new `Just`.
+```haskell
+Maybe.of :: a -> Maybe a
+```
+
+```javascript
+Maybe.of(42).equals(Just(42))
+```
