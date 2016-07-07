@@ -14,32 +14,20 @@ npm install --save-dev not-my-type
 ### Maybe a
 #### Constructors
 
-##### `Maybe.of`
-Returns a new `Just`.
-```haskell
-Maybe.of :: a -> Maybe a
-```
-Example
+##### `Maybe.of : a -> Maybe a`
+Returns a new `Just` which represents an existent value.
 ```javascript
 Maybe.of(42).equals(Just(42)) // true
 ```
 
-##### `Just`
+##### `Just : a -> Maybe a`
 Returns a new `Just` which represents an existent value.
-```haskell
-Just :: a -> Maybe a
-```
-Example
 ```javascript
 Just(42).isJust // true
 ```
 
-##### `Nothing`
+##### `Nothing : () -> Maybe a`
 Returns a new `Nothing` which represents the absence of a value.
-```haskell
-Nothing :: () -> Maybe a
-```
-Example
 ```javascript
 Nothing().isJust // false
 ```
