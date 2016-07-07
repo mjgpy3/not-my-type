@@ -2,6 +2,11 @@
 
 Some useful types for JavaScript. Emphasizes practicality rather than safety.
 
+## Installing
+```
+npm install --save-dev not-my-type
+```
+
 ## Available Types
  - Maybe a
  - Either a b
@@ -9,12 +14,32 @@ Some useful types for JavaScript. Emphasizes practicality rather than safety.
 ### Maybe a
 #### Constructors
 
-#### `Maybe.of`
+##### `Maybe.of`
 Returns a new `Just`.
 ```haskell
 Maybe.of :: a -> Maybe a
 ```
 Example
 ```javascript
-Maybe.of(42).equals(Just(42))
+Maybe.of(42).equals(Just(42)) // true
+```
+
+##### `Just`
+Returns a new `Just` which represents an existent value.
+```haskell
+Just :: a -> Maybe a
+```
+Example
+```javascript
+Just(42).isJust // true
+```
+
+##### `Nothing`
+Returns a new `Nothing` which represents the absence of a value.
+```haskell
+Nothing :: () -> Maybe a
+```
+Example
+```javascript
+Nothing().isJust // false
 ```
