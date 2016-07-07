@@ -31,6 +31,9 @@ function Nothing() {
     withDefault: function (def) {
       return def;
     },
+    maybe: function (def, _) {
+      return def;
+    },
     fromJust: function () {
       throw Error('fromJust called on Nothing');
     },
@@ -62,6 +65,9 @@ function Just(value) {
     },
     withDefault: function (_) {
       return value;
+    },
+    maybe: function (_, fn) {
+      return fn(value);
     },
     fromJust: function () {
       return value;

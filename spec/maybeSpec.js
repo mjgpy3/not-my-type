@@ -61,6 +61,12 @@ describe('Maybe', () => {
       });
     });
 
+    describe('.maybe()', () => {
+      it('modifies the inner value with the passed function', () => {
+        expect(subject.maybe({ any: 'thing' }, a => a + 1)).toBe(43);
+      });
+    });
+
     describe('.fromJust()', () => {
       it('returns the inner value', () => {
         expect(subject.fromJust()).toBe(42);
@@ -122,6 +128,12 @@ describe('Maybe', () => {
     describe('.withDefault()', () => {
       it('returns the passed default', () => {
         expect(subject.withDefault(35)).toBe(35);
+      });
+    });
+
+    describe('.maybe()', () => {
+      it('returns the given default', () => {
+        expect(subject.maybe('default', (_) => _)).toBe('default');
       });
     });
 
