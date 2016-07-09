@@ -1,7 +1,8 @@
 const T = require('../index.js'),
   Maybe = T.Maybe,
   Just = T.Just,
-  Nothing = T.Nothing;
+  Nothing = T.Nothing,
+  R = require('ramda');
 
 var subject;
 
@@ -13,7 +14,7 @@ function add5UnlessZero(value) {
 
 describe('Maybe', () => {
   beforeEach(() => {
-    jasmine.addCustomEqualityTester((a, b) => a.equals(b));
+    jasmine.addCustomEqualityTester(R.equals);
   });
 
   describe('Just()', () => {
@@ -167,6 +168,28 @@ describe('Maybe', () => {
   describe('.of()', () => {
     it('returns a Just of the given value', () => {
       expect(Maybe.of(42)).toEqual(Just(42));
+    });
+  });
+
+  describe('.flatten()', () => {
+    describe('given an empty array', () => {
+      it('returns a Just of an empty array', () => {
+        expect(Maybe.flatten([]).fromJust().length).toBe(0);
+      });
+    });
+
+    describe('given an array of Justs', () => {
+      it('returns a Just of the values contained within each Just', () => {
+        expect(Maybe.flatten([Just(1), Just(2), Just(3)]).fromJust())
+          .toEqual([1, 2, 3]);
+      });
+    });
+
+    describe('given an array of Justs and Nothings', () => {
+      it('returns Nothing', () => {
+        expect(Maybe.flatten([Just(1), Nothing(), Just(2), Just(3), Nothing()]))
+          .toEqual(Nothing());
+      });
     });
   });
 });

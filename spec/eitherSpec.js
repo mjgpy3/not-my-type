@@ -1,7 +1,8 @@
 const T = require('../index.js'),
   Either = T.Either,
   Left = T.Left,
-  Right = T.Right;
+  Right = T.Right,
+  R = require('ramda');
 
 var subject;
 
@@ -13,7 +14,7 @@ function add5UnlessZero(value) {
 
 describe('Either', () => {
   beforeEach(() => {
-    jasmine.addCustomEqualityTester((a, b) => a.equals(b));
+    jasmine.addCustomEqualityTester(R.equals);
   });
 
   describe('Right()', () => {
@@ -179,6 +180,28 @@ describe('Either', () => {
   describe('.of()', () => {
     it('returns a Right of the given value', () => {
       expect(Either.of(42)).toEqual(Right(42));
+    });
+  });
+
+  describe('.flatten()', () => {
+    describe('given an empty array', () => {
+      it('returns a Right of an empty array', () => {
+        expect(Either.flatten([]).fromRight().length).toBe(0);
+      });
+    });
+
+    describe('given an array of Rights', () => {
+      it('returns a Right of the values contained within each Right', () => {
+        expect(Either.flatten([Right(1), Right(2), Right(3)]).fromRight())
+          .toEqual([1, 2, 3]);
+      });
+    });
+
+    describe('given an array of Rights and Lefts', () => {
+      it('returns the first left', () => {
+        expect(Either.flatten([Right(1), Left('first'), Right(2), Right(3), Left('second')]))
+          .toEqual(Left('first'));
+      });
     });
   });
 });

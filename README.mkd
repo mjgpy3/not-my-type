@@ -32,7 +32,19 @@ Returns a new `Nothing` which represents the absence of a value.
 Nothing().isJust // false
 ```
 
-#### Functions
+#### Static Functions
+##### `Maybe.flatten : [Maybe a] -> Maybe [a]`
+Transforms a list of `Maybe` values into `Maybe` a list of values. If any
+`Nothing` values are found, returns `Nothing`.
+```javascript
+Maybe.flatten([]) // Just([])
+
+Maybe.flatten([Just(1), Just(2), Just(3)]) // Just([1, 2, 3])
+
+Maybe.flatten([Just(1), Nothing(), Just(2)]) // Nothing()
+```
+
+#### Instance Functions
 ##### `map : Maybe a -> (a -> b) -> Maybe b`
 Returns a new `Maybe` with its inner value modified, if it has one.
 ```javascript
@@ -149,7 +161,19 @@ Returns a new `Left` which generally represents a failure or error value.
 Left('hmmmm').isLeft // true
 ```
 
-#### Functions
+#### Static Functions
+##### `Either.flatten : [Either a b] -> Either a [b]`
+Transforms a list of `Either` values into `Either` a list of values. If any
+`Left` values are found, returns `Left` of the first one.
+```javascript
+Either.flatten([]) // Right([])
+
+Either.flatten([Right(1), Right(2), Right(3)]) // Right([1, 2, 3])
+
+Either.flatten([Right(1), Left('first'), Right(2), Left('snd')]) // Left('first')
+```
+
+#### Instance Functions
 ##### `map : Either a b -> (b -> c) -> Either a c`
 Returns a new `Either` with its `Right` value modified. Keeps
 `Left` unchanged.

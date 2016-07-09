@@ -11,7 +11,8 @@ function curryN(n, fn, args) {
 };
 
 var Maybe = {
-  of: Just
+  of: Just,
+  flatten: flattenWrappers(Just)
 };
 
 function Nothing() {
@@ -83,8 +84,21 @@ function Just(value) {
   };
 }
 
+function flattenWrappers(constructor) {
+  return function (values) {
+    return values
+      .reduce(
+        function (result, value) {
+          return result.map(values => value => values.concat([value])).ap(value)
+        },
+        constructor([])
+      );
+  };
+}
+
 var Either = {
-  of: Right
+  of: Right,
+  flatten: flattenWrappers(Right)
 };
 
 function Left(value) {
@@ -127,7 +141,7 @@ function Left(value) {
 
 function Right(value) {
   return {
-   map: function (fn) {
+    map: function (fn) {
       return new Right(fn(value));
     },
     chain: function (fn) {

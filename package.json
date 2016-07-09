@@ -1,6 +1,6 @@
 {
   "name": "not-my-type",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Some useful types",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "Michael Gilliland <mjg.py3@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "jasmine": "^2.4.1"
+    "jasmine": "^2.4.1",
+    "ramda": "^0.21.0"
   }
 }
