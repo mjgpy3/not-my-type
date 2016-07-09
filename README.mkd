@@ -11,6 +11,7 @@ npm install not-my-type
 ## Available Types
  - Maybe a
  - Either a b
+ - Tuple a b
 
 ### Maybe a
 Represents the absence or presence of a value.
