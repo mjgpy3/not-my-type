@@ -13,6 +13,8 @@ npm install not-my-type
  - Either a b
 
 ### Maybe a
+Represents the absence or presence of a value.
+
 #### Constructors
 
 ##### `Maybe.of : a -> Maybe a`
@@ -56,7 +58,7 @@ Maybe.flatten([Just(1), Just(2), Just(3)]) // Just([1, 2, 3])
 Maybe.flatten([Just(1), Nothing(), Just(2)]) // Nothing()
 ```
 
-#### Instance Functions
+#### Instance Functions/Values
 ##### `map : Maybe a -> (a -> b) -> Maybe b`
 Returns a new `Maybe` with its inner value modified, if it has one.
 ```javascript
@@ -153,6 +155,9 @@ Nothing().isNothing // true
 ```
 
 ### Either a b
+Represents one of two potential types of values. Generally, the left value
+`a` is an error and `b` is the result of a successful computation.
+
 #### Constructors
 
 ##### `Either.of : a -> Either ? a`
@@ -185,7 +190,7 @@ Either.flatten([Right(1), Right(2), Right(3)]) // Right([1, 2, 3])
 Either.flatten([Right(1), Left('first'), Right(2), Left('snd')]) // Left('first')
 ```
 
-#### Instance Functions
+#### Instance Functions/Values
 ##### `map : Either a b -> (b -> c) -> Either a c`
 Returns a new `Either` with its `Right` value modified. Keeps
 `Left` unchanged.
@@ -288,4 +293,35 @@ Left(99).isRight // false
 Right(42).isLeft // false
 
 Left(99).isLeft // true
+```
+
+### Tuple a b
+Wraps a pair of values.
+
+#### Constructors
+##### `Tuple : a -> b -> Tuple a b`
+Returns a new `Tuple`.
+```javascript
+Tuple(1, 2).equals(Tuple(1, 1 + 1)) // true
+
+Tuple(1)(2).equals(Tuple(1, 2)) // true
+```
+
+#### Instance Functions/Values
+##### `map : Tuple a b -> (b -> c) -> Tuple a c`
+Returns a new `Tuple` with its second, inner value modified.
+```javascript
+Tuple(12, 42).map(a => a + 1) // Tuple(12, 43)
+```
+
+##### `fst : a`
+Is the first value in a `Tuple`.
+```javascript
+Tuple(42, 99).fst // 42
+```
+
+##### `snd : b`
+Is the second value in a `Tuple`.
+```javascript
+Tuple(42, 99).snd // 99
 ```

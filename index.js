@@ -184,6 +184,22 @@ function Right(value) {
   };
 }
 
+var Tuple = curryN(2, function (fst, snd) {
+  return {
+    map: function (f) {
+      return Tuple(fst, f(snd));
+    },
+    equals: function (other) {
+      return other.isTuple &&
+        ((fst.equals && fst.equals(other.fst)) || fst === other.fst) &&
+        ((snd.equals && snd.equals(other.snd)) || snd === other.snd);
+    },
+    fst: fst,
+    snd: snd,
+    isTuple: true
+  };
+});
+
 if (module && module.exports) {
   module.exports = {
     Left: Left,
@@ -192,6 +208,8 @@ if (module && module.exports) {
 
     Just: Just,
     Nothing: Nothing,
-    Maybe: Maybe
+    Maybe: Maybe,
+
+    Tuple: Tuple
   };
 }
