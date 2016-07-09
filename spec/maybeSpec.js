@@ -1,10 +1,9 @@
-const T = require('../index.js'),
+var T = require('../index.js'),
   Maybe = T.Maybe,
   Just = T.Just,
   Nothing = T.Nothing,
-  R = require('ramda');
-
-var subject;
+  R = require('ramda'),
+  subject;
 
 function add5UnlessZero(value) {
   return value === 0 ?
@@ -12,201 +11,201 @@ function add5UnlessZero(value) {
     Just(value + 5);
 }
 
-describe('Maybe', () => {
-  beforeEach(() => {
+describe('Maybe', function () {
+  beforeEach(function () {
     jasmine.addCustomEqualityTester(R.equals);
   });
 
-  describe('Just()', () => {
-    beforeEach(() => {
+  describe('Just()', function () {
+    beforeEach(function () {
       subject = Just(42);
     });
 
-    it('equals itself', () => {
+    it('equals itself', function () {
       expect(subject).toEqual(subject);
     });
 
-    it('equals another Just around the same value', () => {
+    it('equals another Just around the same value', function () {
       expect(subject).toEqual(Just(42));
     });
 
-    it('is a Just', () => {
+    it('is a Just', function () {
       expect(subject.isJust).toBe(true);
     });
 
-    it('is not a Nothing', () => {
+    it('is not a Nothing', function () {
       expect(subject.isNothing).toBe(false);
     });
 
-    describe('.map()', () => {
-      it('modifies the inner value', () => {
-        expect(subject.map(a => a + 1)).toEqual(Just(43));
+    describe('.map()', function () {
+      it('modifies the inner value', function () {
+        expect(subject.map(function (a) { return a + 1; })).toEqual(Just(43));
       });
     });
 
-    describe('.ap()', () => {
-      it('applies the wrapped function to a given value', () => {
-        expect(Just(a => a + 1).ap(Just(42))).toEqual(Just(43));
+    describe('.ap()', function () {
+      it('applies the wrapped function to a given value', function () {
+        expect(Just(function (a) { return a + 1; }).ap(Just(42))).toEqual(Just(43));
       });
     });
 
-    describe('.chain()', () => {
-      it('modifies the inner value, bubbling the callback result', () => {
+    describe('.chain()', function () {
+      it('modifies the inner value, bubbling the callback result', function () {
         expect(subject.chain(add5UnlessZero)).toEqual(Just(47));
       });
     });
 
-    describe('.withDefault()', () => {
-      it('returns the inner value', () => {
+    describe('.withDefault()', function () {
+      it('returns the inner value', function () {
         expect(subject.withDefault({ any: 'thing' })).toBe(42);
       });
     });
 
-    describe('.maybe()', () => {
-      it('modifies the inner value with the passed function', () => {
-        expect(subject.maybe({ any: 'thing' }, a => a + 1)).toBe(43);
+    describe('.maybe()', function () {
+      it('modifies the inner value with the passed function', function () {
+        expect(subject.maybe({ any: 'thing' }, function (a) { return a + 1; })).toBe(43);
       });
 
-      it('can be partially applied', () => {
-        expect(subject.maybe({ any: 'thing' })(a => a + 1)).toBe(43);
+      it('can be partially applied', function () {
+        expect(subject.maybe({ any: 'thing' })(function (a) { return a + 1; })).toBe(43);
       });
     });
 
-    describe('.fromJust()', () => {
-      it('returns the inner value', () => {
+    describe('.fromJust()', function () {
+      it('returns the inner value', function () {
         expect(subject.fromJust()).toBe(42);
       });
     });
 
-    describe('.toMaybe()', () => {
-      it('returns an equal value', () => {
+    describe('.toMaybe()', function () {
+      it('returns an equal value', function () {
         expect(subject.toMaybe()).toEqual(subject);
       });
     });
 
-    describe('.toEither()', () => {
-      it('returns a Right wrapping the inner value', () => {
+    describe('.toEither()', function () {
+      it('returns a Right wrapping the inner value', function () {
         expect(subject.toEither({ any: 'thing' })).toEqual(T.Right(42));
       });
     });
   });
 
-  describe('Nothing()', () => {
-    beforeEach(() => {
+  describe('Nothing()', function () {
+    beforeEach(function () {
       subject = Nothing();
     });
 
-    it('equals itself', () => {
+    it('equals itself', function () {
       expect(subject).toEqual(subject);
     });
 
-    it('equals another Nothing', () => {
+    it('equals another Nothing', function () {
       expect(subject).toEqual(Nothing());
     });
 
-    it('is a Nothing', () => {
+    it('is a Nothing', function () {
       expect(subject.isNothing).toBe(true);
     });
 
-    it('is not a Just', () => {
+    it('is not a Just', function () {
       expect(subject.isJust).toBe(false);
     });
 
-    describe('.map()', () => {
-      it('returns a Nothing', () => {
-        expect(subject.map(a => a + 1)).toEqual(Nothing());
+    describe('.map()', function () {
+      it('returns a Nothing', function () {
+        expect(subject.map(function (a) { return a + 1; })).toEqual(Nothing());
       });
     });
 
-    describe('.ap()', () => {
-      it('preserves the Nothing', () => {
+    describe('.ap()', function () {
+      it('preserves the Nothing', function () {
         expect(Nothing().ap(Just(42))).toEqual(Nothing());
       });
     });
 
-    describe('.chain()', () => {
-      it('returns Nothing', () => {
+    describe('.chain()', function () {
+      it('returns Nothing', function () {
         expect(subject.chain(add5UnlessZero)).toEqual(Nothing());
       });
     });
 
-    describe('.withDefault()', () => {
-      it('returns the passed default', () => {
+    describe('.withDefault()', function () {
+      it('returns the passed default', function () {
         expect(subject.withDefault(35)).toBe(35);
       });
     });
 
-    describe('.maybe()', () => {
-      it('returns the given default', () => {
-        expect(subject.maybe('default', (_) => _)).toBe('default');
+    describe('.maybe()', function () {
+      it('returns the given default', function () {
+        expect(subject.maybe('default', function () {})).toBe('default');
       });
 
-      it('can be partially applied', () => {
-        expect(subject.maybe('default')((_) => _)).toBe('default');
+      it('can be partially applied', function () {
+        expect(subject.maybe('default')(function () {})).toBe('default');
       });
     });
 
-    describe('.fromJust()', () => {
-      it('throws an error', () => {
+    describe('.fromJust()', function () {
+      it('throws an error', function () {
         expect(subject.fromJust).toThrow();
       });
     });
 
-    describe('.toMaybe()', () => {
-      it('returns an equal value', () => {
+    describe('.toMaybe()', function () {
+      it('returns an equal value', function () {
         expect(subject.toMaybe()).toEqual(subject);
       });
     });
 
-    describe('.toEither()', () => {
-      it('returns a Left wrapping the passed value', () => {
+    describe('.toEither()', function () {
+      it('returns a Left wrapping the passed value', function () {
         expect(subject.toEither(35)).toEqual(T.Left(35));
       });
     });
   });
 
-  describe('.of()', () => {
-    it('returns a Just of the given value', () => {
+  describe('.of()', function () {
+    it('returns a Just of the given value', function () {
       expect(Maybe.of(42)).toEqual(Just(42));
     });
   });
 
-  describe('.fromUndefinable()', () => {
-    describe('given undefined', () => {
-      it('returns Nothing()', () => {
+  describe('.fromUndefinable()', function () {
+    describe('given undefined', function () {
+      it('returns Nothing()', function () {
         expect(Maybe.fromUndefinable(undefined)).toEqual(Nothing());
       });
     });
 
-    describe('given a falsey value that is not undefined', () => {
-      it('returns Just that value', () => {
+    describe('given a falsey value that is not undefined', function () {
+      it('returns Just that value', function () {
         expect(Maybe.fromUndefinable(false)).toEqual(Just(false));
       });
     });
 
-    describe('given a truthy value', () => {
-      it('returns Just that value', () => {
+    describe('given a truthy value', function () {
+      it('returns Just that value', function () {
         expect(Maybe.fromUndefinable(42)).toEqual(Just(42));
       });
     });
   });
 
-  describe('.flatten()', () => {
-    describe('given an empty array', () => {
-      it('returns a Just of an empty array', () => {
+  describe('.flatten()', function () {
+    describe('given an empty array', function () {
+      it('returns a Just of an empty array', function () {
         expect(Maybe.flatten([]).fromJust().length).toBe(0);
       });
     });
 
-    describe('given an array of Justs', () => {
-      it('returns a Just of the values contained within each Just', () => {
+    describe('given an array of Justs', function () {
+      it('returns a Just of the values contained within each Just', function () {
         expect(Maybe.flatten([Just(1), Just(2), Just(3)]).fromJust())
           .toEqual([1, 2, 3]);
       });
     });
 
-    describe('given an array of Justs and Nothings', () => {
-      it('returns Nothing', () => {
+    describe('given an array of Justs and Nothings', function () {
+      it('returns Nothing', function () {
         expect(Maybe.flatten([Just(1), Nothing(), Just(2), Just(3), Nothing()]))
           .toEqual(Nothing());
       });

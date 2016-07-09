@@ -87,12 +87,16 @@ function Just(value) {
   };
 }
 
+var append = curryN(2, function (values, value) {
+  return values.concat([value]);
+});
+
 function flattenWrappers(constructor) {
   return function (values) {
     return values
       .reduce(
         function (result, value) {
-          return result.map(values => value => values.concat([value])).ap(value)
+          return result.map(append).ap(value)
         },
         constructor([])
       );
