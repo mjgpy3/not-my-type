@@ -171,6 +171,26 @@ describe('Maybe', () => {
     });
   });
 
+  describe('.fromUndefinable()', () => {
+    describe('given undefined', () => {
+      it('returns Nothing()', () => {
+        expect(Maybe.fromUndefinable(undefined)).toEqual(Nothing());
+      });
+    });
+
+    describe('given a falsey value that is not undefined', () => {
+      it('returns Just that value', () => {
+        expect(Maybe.fromUndefinable(false)).toEqual(Just(false));
+      });
+    });
+
+    describe('given a truthy value', () => {
+      it('returns Just that value', () => {
+        expect(Maybe.fromUndefinable(42)).toEqual(Just(42));
+      });
+    });
+  });
+
   describe('.flatten()', () => {
     describe('given an empty array', () => {
       it('returns a Just of an empty array', () => {

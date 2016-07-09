@@ -32,6 +32,17 @@ Returns a new `Nothing` which represents the absence of a value.
 Nothing().isJust // false
 ```
 
+##### `Maybe.fromUndefinable : * -> Maybe a`
+Returns `Nothing` if given `undefined`, otherwise a new `Just` wrapping the
+given value.
+```javascript
+Maybe.fromUndefinable(42) // Just(42)
+
+Maybe.fromUndefinable(false) // Just(false)
+
+Maybe.fromUndefinable(undefined) // Nothing
+```
+
 #### Static Functions
 ##### `Maybe.flatten : [Maybe a] -> Maybe [a]`
 Transforms a list of `Maybe` values into `Maybe` a list of values. If any

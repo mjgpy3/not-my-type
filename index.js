@@ -12,7 +12,10 @@ function curryN(n, fn, args) {
 
 var Maybe = {
   of: Just,
-  flatten: flattenWrappers(Just)
+  flatten: flattenWrappers(Just),
+  fromUndefinable: function (value) {
+    return value === undefined ? Nothing() : Just(value);
+  }
 };
 
 function Nothing() {
