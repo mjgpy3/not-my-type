@@ -11,6 +11,12 @@ function add5UnlessZero(value) {
     Just(value + 5);
 }
 
+function add1(n) { return n + 1; }
+
+function anyFn() {
+  throw Error('A function was called that should not have been');
+}
+
 describe('Maybe', function () {
   beforeEach(function () {
     jasmine.addCustomEqualityTester(R.equals);
@@ -39,13 +45,13 @@ describe('Maybe', function () {
 
     describe('.map()', function () {
       it('modifies the inner value', function () {
-        expect(subject.map(function (a) { return a + 1; })).toEqual(Just(43));
+        expect(subject.map(add1)).toEqual(Just(43));
       });
     });
 
     describe('.ap()', function () {
       it('applies the wrapped function to a given value', function () {
-        expect(Just(function (a) { return a + 1; }).ap(Just(42))).toEqual(Just(43));
+        expect(Just(add1).ap(Just(42))).toEqual(Just(43));
       });
     });
 
@@ -63,11 +69,11 @@ describe('Maybe', function () {
 
     describe('.maybe()', function () {
       it('modifies the inner value with the passed function', function () {
-        expect(subject.maybe({ any: 'thing' }, function (a) { return a + 1; })).toBe(43);
+        expect(subject.maybe({ any: 'thing' }, add1)).toBe(43);
       });
 
       it('can be partially applied', function () {
-        expect(subject.maybe({ any: 'thing' })(function (a) { return a + 1; })).toBe(43);
+        expect(subject.maybe({ any: 'thing' })(add1)).toBe(43);
       });
     });
 
@@ -113,7 +119,7 @@ describe('Maybe', function () {
 
     describe('.map()', function () {
       it('returns a Nothing', function () {
-        expect(subject.map(function (a) { return a + 1; })).toEqual(Nothing());
+        expect(subject.map(add1)).toEqual(Nothing());
       });
     });
 
@@ -137,11 +143,11 @@ describe('Maybe', function () {
 
     describe('.maybe()', function () {
       it('returns the given default', function () {
-        expect(subject.maybe('default', function () {})).toBe('default');
+        expect(subject.maybe('default', anyFn)).toBe('default');
       });
 
       it('can be partially applied', function () {
-        expect(subject.maybe('default')(function () {})).toBe('default');
+        expect(subject.maybe('default')(anyFn)).toBe('default');
       });
     });
 

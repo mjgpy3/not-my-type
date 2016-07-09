@@ -11,6 +11,12 @@ function add5UnlessZero(value) {
     Right(value + 5);
 }
 
+function add1(n) { return n + 1; }
+
+function anyFn() {
+  throw Error('A function was called that should not have been');
+}
+
 describe('Either', function () {
   beforeEach(function () {
     jasmine.addCustomEqualityTester(R.equals);
@@ -39,23 +45,23 @@ describe('Either', function () {
 
     describe('.either()', function () {
       it('returns the inner value modified by the right function', function () {
-        expect(subject.either(function () {}, function (a) { return  a + 1 })).toBe(43);
+        expect(subject.either(anyFn, add1)).toBe(43);
       });
 
       it('can be partially applied', function () {
-        expect(subject.either(function () {})(function (a) { return a + 1 })).toBe(43);
+        expect(subject.either(anyFn)(add1)).toBe(43);
       });
     });
 
     describe('.map()', function () {
       it('modifies the inner value', function () {
-        expect(subject.map(function (a) { return  a + 1; })).toEqual(Right(43));
+        expect(subject.map(add1)).toEqual(Right(43));
       });
     });
 
     describe('.ap()', function () {
       it('applies the wrapped function to a given value', function () {
-        expect(Right(function (a) { return a + 1; }).ap(Right(42))).toEqual(Right(43));
+        expect(Right(add1).ap(Right(42))).toEqual(Right(43));
       });
     });
 
@@ -119,17 +125,17 @@ describe('Either', function () {
 
     describe('.either()', function () {
       it('returns the inner value modified by the left function', function () {
-        expect(subject.either(function (a) { return a + 1; }, function () {})).toBe(36);
+        expect(subject.either(add1, anyFn)).toBe(36);
       });
 
       it('can be partially applied', function () {
-        expect(subject.either(function (a) { return a + 1; })(function () {})).toBe(36);
+        expect(subject.either(add1)(anyFn)).toBe(36);
       });
     });
 
     describe('.map()', function () {
       it('does not modify the inner value', function () {
-        expect(subject.map(function (a) { return a + 1; })).toEqual(Left(35));
+        expect(subject.map(add1)).toEqual(Left(35));
       });
     });
 
