@@ -1,5 +1,6 @@
 # Not My Type
-[![Build Status](https://travis-ci.org/mjgpy3/not-my-type.svg?branch=master)](https://travis-ci.org/mjgpy3/not-my-type)
+[![Build Status](https://travis-ci.org/mjgpy3/not-my-type.svg?branch=master)](https://travis-ci.org/mjgpy3/not-my-type)<br />
+[![NPM](https://nodei.co/npm/not-my-type.png)](https://npmjs.org/package/not-my-type)
 
 Some useful types for JavaScript. Emphasizes practicality rather than safety.
 
