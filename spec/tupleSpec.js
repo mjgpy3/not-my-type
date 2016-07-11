@@ -4,6 +4,7 @@ var T = require('../index.js'),
   subject;
 
 function add1(n) { return n + 1; } 
+function add42(n) { return n + 42; } 
 
 describe('Tuple', function () {
   beforeEach(function () {
@@ -55,6 +56,12 @@ describe('Tuple', function () {
     describe('.map()', function () {
       it('applies a function to the second value', function () {
         expect(subject.map(add1)).toEqual(Tuple(2, 4));
+      });
+    });
+
+    describe('.bimap()', function () {
+      it('modifies the left and right values with the left and right functions, respectively', function () {
+        expect(subject.bimap(add42, add1)).toEqual(Tuple(44, 4));
       });
     });
   });

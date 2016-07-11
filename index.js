@@ -113,6 +113,9 @@ function Left(value) {
     map: function (_) {
       return Left(value);
     },
+    bimap: function (fn, _) {
+      return new Left(fn(value));
+    },
     chain: function (_) {
       return Left(value);
     },
@@ -149,6 +152,9 @@ function Left(value) {
 function Right(value) {
   return {
     map: function (fn) {
+      return new Right(fn(value));
+    },
+    bimap: function (_, fn) {
       return new Right(fn(value));
     },
     chain: function (fn) {
@@ -188,6 +194,9 @@ var Tuple = curryN(2, function (fst, snd) {
   return {
     map: function (f) {
       return Tuple(fst, f(snd));
+    },
+    bimap: function (fstFn, sndFn) {
+      return Tuple(fstFn(fst), sndFn(snd));
     },
     equals: function (other) {
       return other.isTuple &&

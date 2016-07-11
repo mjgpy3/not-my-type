@@ -202,6 +202,15 @@ Right(42).map(a => a + 1) // Right(43)
 Left('error text').map(a => a + 1) // Left('error text')
 ```
 
+##### `bimap : Either a b -> (a -> c) -> (b -> d) -> Either c d`
+Returns a new `Either` with the left function applied, given a `Left, or the
+`Right function applied, given a `Right`.
+```javascript
+Right(42).bimap(a => a + 1, a => a + 2) // Right(44)
+
+Left(42).bimap(a => a + 1, a => a + 2) // Right(43)
+```
+
 ##### `chain : Either a b -> (b -> Either a c) -> Either a c`
 Applies a modification to the `Right` value. Keeps `Left` unchanged.
 ```javascript
@@ -314,6 +323,13 @@ Tuple(1)(2).equals(Tuple(1, 2)) // true
 Returns a new `Tuple` with its second, inner value modified.
 ```javascript
 Tuple(12, 42).map(a => a + 1) // Tuple(12, 43)
+```
+
+##### `bimap : Tuple a b -> (a -> c) -> (b -> d) -> Tuple c d`
+Returns a new `Tuple` with the first function applied to the first value, and
+the second applied to the second
+```javascript
+Tuple(99, 'foo').bimap(a => a + 1, b => b + 'bar') // Tuple(100, 'foobar')
 ```
 
 ##### `fst : a`

@@ -12,6 +12,7 @@ function add5UnlessZero(value) {
 }
 
 function add1(n) { return n + 1; }
+function add42(n) { return n + 42; }
 
 function anyFn() {
   throw Error('A function was called that should not have been');
@@ -56,6 +57,12 @@ describe('Either', function () {
     describe('.map()', function () {
       it('modifies the inner value', function () {
         expect(subject.map(add1)).toEqual(Right(43));
+      });
+    });
+
+    describe('.bimap()', function () {
+      it('modifies the inner value with the right function, returning a new Right', function () {
+        expect(subject.bimap(add42, add1)).toEqual(Right(43));
       });
     });
 
@@ -136,6 +143,12 @@ describe('Either', function () {
     describe('.map()', function () {
       it('does not modify the inner value', function () {
         expect(subject.map(add1)).toEqual(Left(35));
+      });
+    });
+
+    describe('.bimap()', function () {
+      it('modifies the inner value with the left function, returning a new Left', function () {
+        expect(subject.bimap(add42, add1)).toEqual(Left(77));
       });
     });
 
