@@ -4,11 +4,6 @@
 
 Some useful types for JavaScript. Emphasizes practicality rather than safety.
 
-## Installing
-```
-npm install not-my-type
-```
-
 ## Available Types
  - Maybe a
  - Either a b
