@@ -27,7 +27,10 @@ var Maybe = {
   flatten: flattenWrappers(Just),
   fromUndefinable: function (value) {
     return value === undefined ? Nothing() : Just(value);
-  }
+  },
+  toEither: curryN(2, function (def, maybe) {
+    return maybe.toEither(def);
+  })
 };
 
 function Nothing() {
@@ -117,7 +120,10 @@ function flattenWrappers(constructor) {
 
 var Either = {
   of: Right,
-  flatten: flattenWrappers(Right)
+  flatten: flattenWrappers(Right),
+  toMaybe: function (value) {
+    return value.toMaybe();
+  }
 };
 
 function Left(value) {

@@ -201,6 +201,24 @@ describe('Either', function () {
     });
   });
 
+  describe('.toMaybe()', function () {
+    beforeEach(function () {
+      subject = Either.toMaybe;
+    });
+
+    describe('given a Right', function () {
+      it('returns a Just wrapping the Right\'s value', function () {
+        expect(subject(Right(42))).toEqual(T.Just(42));
+      });
+    });
+
+    describe('and a Left', function () {
+      it('returns Nothing', function () {
+        expect(subject(Left(42))).toEqual(T.Nothing());
+      });
+    });
+  });
+
   describe('.flatten()', function () {
     describe('given an empty array', function () {
       it('returns a Right of an empty array', function () {

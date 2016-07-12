@@ -196,6 +196,30 @@ describe('Maybe', function () {
     });
   });
 
+  describe('.toEither()', function () {
+    beforeEach(function () {
+      subject = Maybe.toEither;
+    });
+
+    describe('given a default, Left value', function () {
+      beforeEach(function () {
+        subject = subject('foobar');
+      });
+
+      describe('and Nothing', function () {
+        it('returns a Left of the default value', function () {
+          expect(subject(Nothing())).toEqual(T.Left('foobar'));
+        });
+      });
+
+      describe('and a Just', function () {
+        it('returns a Right of the wrapped value', function () {
+          expect(subject(Just(42))).toEqual(T.Right(42));
+        });
+      });
+    });
+  });
+
   describe('.flatten()', function () {
     describe('given an empty array', function () {
       it('returns a Just of an empty array', function () {
