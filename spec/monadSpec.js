@@ -2,8 +2,6 @@ var T = require('../index.js'),
   R = require('ramda'),
   subject;
 
-function add1(n) { return n + 1; }
-
 describe('Monad', function () {
   beforeEach(function () {
     jasmine.addCustomEqualityTester(R.equals);
