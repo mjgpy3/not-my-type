@@ -6,6 +6,8 @@ var T = require('../index.js'),
 function add1(n) { return n + 1; } 
 function add42(n) { return n + 42; } 
 
+function add1ToRight(n) { return Tuple(99, n + 1); }
+
 describe('Tuple', function () {
   beforeEach(function () {
     jasmine.addCustomEqualityTester(R.equals);
@@ -62,6 +64,12 @@ describe('Tuple', function () {
     describe('.bimap()', function () {
       it('modifies the left and right values with the left and right functions, respectively', function () {
         expect(subject.bimap(add42, add1)).toEqual(Tuple(44, 4));
+      });
+    });
+
+    describe('.chain()', function () {
+      it('modifies the right values with passed function returning the function\'s result', function () {
+        expect(subject.chain(add1ToRight)).toEqual(Tuple(subject.fst, 4));
       });
     });
   });

@@ -16,6 +16,12 @@ var Functor = {
   })
 };
 
+var Monad = {
+  chain: curryN(2, function (fn, monad) {
+    return monad.chain(fn);
+  })
+};
+
 var Maybe = {
   of: Just,
   flatten: flattenWrappers(Just),
@@ -209,6 +215,12 @@ var Tuple = curryN(2, function (fst, snd) {
         ((fst.equals && fst.equals(other.fst)) || fst === other.fst) &&
         ((snd.equals && snd.equals(other.snd)) || snd === other.snd);
     },
+    chain: function (fn) {
+      return fn(snd).bimap(
+        function (_) { return fst; },
+        function (a) { return a; }
+      );
+    },
     fst: fst,
     snd: snd,
     isTuple: true
@@ -218,6 +230,7 @@ var Tuple = curryN(2, function (fst, snd) {
 if (module && module.exports) {
   module.exports = {
     Functor: Functor,
+    Monad: Monad,
 
     Left: Left,
     Right: Right,
