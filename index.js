@@ -10,6 +10,12 @@ function curryN(n, fn, args) {
     }
 };
 
+var Functor = {
+  map: curryN(2, function (fn, functor) {
+    return functor.map(fn);
+  })
+};
+
 var Maybe = {
   of: Just,
   flatten: flattenWrappers(Just),
@@ -211,6 +217,8 @@ var Tuple = curryN(2, function (fst, snd) {
 
 if (module && module.exports) {
   module.exports = {
+    Functor: Functor,
+
     Left: Left,
     Right: Right,
     Either: Either,
