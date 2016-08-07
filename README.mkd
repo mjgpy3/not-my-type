@@ -102,7 +102,7 @@ Just(42).withDefault(35) // 42
 Nothing().withDefault('some default') // 'some default'
 ```
 
-##### `maybe : Maybe a -> b -> (a -> b) -> a`
+##### `maybe : Maybe a -> b -> (a -> b) -> b`
 Like `withDefault` except it applies a function to the unwrapped value.
 ```javascript
 Just(42).maybe(35, a => a + 1) // 43
